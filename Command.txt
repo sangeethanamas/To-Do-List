@@ -1,0 +1,35 @@
+sqlplus -s $user/$passwd@$sid << SQL >> session.log
+
+CREATE DATABASE [TODOLIST]
+
+Go
+
+USE [TODOLIST]
+GO
+
+/****** Object:  Table [dbo].[list]    Script Date: 03-Nov-21 11:36:42 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[list](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[content] [varchar](max) NOT NULL,
+	[IsSelected] [bit] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[list] ADD  DEFAULT ((0)) FOR [IsSelected]
+GO
+
+
+
+quit
+SQL ## leaving sql prompt and exiting database
+## shell commands ##
