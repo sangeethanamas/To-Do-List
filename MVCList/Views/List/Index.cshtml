@@ -5,35 +5,67 @@
 }
 
 
-
 <p>
-    <a href="@Url.Action("AddOrEdit", "List")" class=" btn btn-default">Add</a>
+    
 </p>
-<table class="table">
+<table class="table" id="contenttable">
+   
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td  width="30">
+                <input id="Checkbox1" type="checkbox" onchange="AddOrEdit" name="checkuncheck" value="true" />
+
+            </td>
+            <td width="500">
+                @Html.DisplayFor(modelItem => item.content)
+            </td>
+            <td>
+
+                <a href="@Url.Action("AddOrEdit", "List", new { id = item.Id })" class=" btn btn-primary">Edit</a>
+                <a href="@Url.Action("Delete", "List", new { id = item.Id })" class=" btn btn-primary">Delete</a>
+
+
+
+            </td>
+        </tr>
+
+    }
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.content)
-        </th>
-        <th></th>
+        <td colspan="2">
+            <input type="text" id="txtcontent" size="500" />
+        </td>
+        <td>
+            <input type="button" value="Add" id="contentbutton" class=" btn btn-primary" />
+        </td>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <input id="Checkbox1" type="checkbox" onchange="AddOrEdit" name="checkuncheck" value="true" />@item.content
-            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.content)
-        </td>
-        <td>
-            
-            <a href="@Url.Action("AddOrEdit", "List", new { id=item.Id})" class=" btn btn-default">Edit</a>
-            <a href="@Url.Action("Delete", "List", new { id=item.Id})" class=" btn btn-default">Delete</a>
 
-
-        </td>
-    </tr>
-}
 
 </table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+<script type="text/javascript">
+    $("body").on("click", "#contentbutton", function () {
+        var txtcontent = $("#txtcontent");
+        $.ajax({
+            type: "POST",
+            url: "/List/AddNew",
+            data: '{ content :"' + txtcontent.val() + '"}',
+            contentType: "application/json charset=utf-8",
+            dataType: "json",
+            success: function () {
+                var row = $("#contenttable tr:last-child");
+                location.reload();
+                txtcontent.val = "";
+                
+                
+            }
+
+
+        });
+    });
+</script>

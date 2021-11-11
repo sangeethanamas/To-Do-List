@@ -18,7 +18,15 @@ namespace MVCList.Controllers
             list = response.Content.ReadAsAsync<IEnumerable<MVCListModel>>().Result;
             return View(list);
         }
-       
+
+        [ValidateInput(false)]
+        public JsonResult AddNew(MVCListModel model)
+        {
+
+            
+           HttpResponseMessage response = GlobalVariables.WebApiClient.PostAsJsonAsync("lists", model).Result;
+            return Json("Index");
+        }
 
         public ActionResult AddOrEdit(int id = 0)
         {
@@ -29,6 +37,7 @@ namespace MVCList.Controllers
                 HttpResponseMessage response = GlobalVariables.WebApiClient.GetAsync("lists/" + id.ToString()).Result;
                 return View(response.Content.ReadAsAsync<MVCListModel>().Result);
             }
+            
         }
         [HttpPost]
         public ActionResult AddOrEdit(MVCListModel model)
